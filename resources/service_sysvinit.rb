@@ -16,8 +16,6 @@ provides :push_jobs_service, platform_family: 'rhel' do |node|
   node['platform_version'].to_i == 6
 end
 
-provides :push_jobs_service, platform_family: 'amazon'
-
 action :start do
   delete_runit
   create_init
@@ -68,12 +66,12 @@ action_class do
     include_recipe 'push-jobs::package'
 
     platform_lock_dir = value_for_platform_family(
-      %w(rhel fedora suse amazon) => '/var/lock/subsys',
+      %w(rhel fedora suse) => '/var/lock/subsys',
       'debian' => '/var/lock',
       'default' => '/var/lock'
     )
 
-    if platform_family?('rhel', 'fedora', 'amazon')
+    if platform_family?('rhel', 'fedora')
       if node['platform_version'].to_i < 6.0
         package 'redhat-lsb'
       else
