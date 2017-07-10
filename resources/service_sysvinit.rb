@@ -68,12 +68,12 @@ action_class do
     include_recipe 'push-jobs::package'
 
     platform_lock_dir = value_for_platform_family(
-      %w(rhel fedora suse) => '/var/lock/subsys',
+      %w(rhel fedora suse amazon) => '/var/lock/subsys',
       'debian' => '/var/lock',
       'default' => '/var/lock'
     )
 
-    if platform_family?('rhel', 'fedora')
+    if platform_family?('rhel', 'fedora', 'amazon')
       if node['platform_version'].to_i < 6.0
         package 'redhat-lsb'
       else
